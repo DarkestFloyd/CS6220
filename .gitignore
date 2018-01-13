@@ -1,1 +1,5 @@
 data/
+*.iml
+.idea/
+out/
+.ipynb_checkpoints/
