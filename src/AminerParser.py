@@ -8,7 +8,7 @@ if len(sys.argv) == 2:
 inpath = "./data/Aminer/" + filename + ".txt"
 outpath = "./data/Aminer/" + filename + ".tsv"
 
-TAB = "\t"
+TAB = "::\t"
 print("Opening files...")
 with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     print("Files opened...")
@@ -17,6 +17,7 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     lines = infile.readlines()
     print("Read.. Parsing..")
 
+    outfile.write("index\ttitle\tauthors\tyear\tvenue\trefs\tabs\n")
     for line in lines:
         if len(line) < 2:
             outfile.write("\n")
@@ -34,6 +35,6 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
         if line[1] == "%":
             outfile.write(line[3:].strip() + ",")
         if line[1] == "!":
-            outfile.write(TAB + line[3:].strip())
+            outfile.write(TAB + line[3:].strip() + TAB)
 
     print("Parsing complete. Output filename: " + filename + ".tsv")
