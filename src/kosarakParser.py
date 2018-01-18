@@ -7,7 +7,7 @@ if len(sys.argv) == 3:
     inpath = sys.argv[1]
     outpath = sys.argv[2]
 
-MAX_VALUE = 10 # 41270
+MAX_VALUE = 25 # 41270
 
 with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     
@@ -24,7 +24,7 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     # write data
     outfile.write("\n@DATA\n")
     for index in range(len(lines)):
-        ints = list(map(int, lines[index].split()))
+        ints = sorted(list(map(int, lines[index].split())))
         outfile.write("{")
         for val in ints[:-1]:
             outfile.write(str(val - 1) + " " + "1,")
