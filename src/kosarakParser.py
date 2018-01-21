@@ -12,14 +12,16 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     print("Reading file...")
     lines = infile.read().splitlines();
 
+    print("Parsing...")
     max_num = 0
-    out_string = ""
+    out_string = []
     for line in lines:
-        out_string += "{"
-        for element in set(map(int, line.split(' '))):
+        out_string_sub = "{"
+        for element in sorted(set(map(int, line.split(' ')))):
             max_num = max(max_num, element)
-            out_string += str(element - 1) + " 1, " 
-        out_string = out_string[:-2] + "}\n"
+            out_string_sub += str(element - 1) + " 1, " 
+        out_string_sub = out_string_sub[:-2] + "}\n"
+        out_string.append(out_string_sub)
 
     print("Coverting to arff...")
 
@@ -32,6 +34,7 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     # write data
     print("Writing data..")
     outfile.write("@DATA\n")
-    outfile.write(out_string)
+    for out_line in out_string:
+        outfile.write(out_line)
 
     print("Done parsing, closing files...")
