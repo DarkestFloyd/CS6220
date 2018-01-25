@@ -1,6 +1,0 @@
-Name: Nischal Mahaveer Chand
-Email: mahaveerchand.n@husky.neu.edu
-Level: MS
-Dept: DS
-Campus: Boston
-5 digit id: 64724

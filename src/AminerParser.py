@@ -8,7 +8,7 @@ if len(sys.argv) == 2:
 inpath = "./data/Aminer/" + filename + ".txt"
 outpath = "./data/Aminer/" + filename + ".tsv"
 
-TAB = "::\t"
+TAB = "\t\t"
 print("Opening files...")
 with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     print("Files opened...")
@@ -18,23 +18,36 @@ with open(inpath, 'r') as infile, open(outpath, 'w') as outfile:
     print("Read.. Parsing..")
 
     outfile.write("index\ttitle\tauthors\tyear\tvenue\trefs\tabs\n")
+
+    index, title, authors, year = "NA", "NA", "NA", "NA"
+    venue, refs, abstract = "NA", "NA", "NA"
+
     for line in lines:
         if len(line) < 2:
-            outfile.write("\n")
+            for element in [index, title, authors, year, venue]:
+                if not element:
+                    element = "NA"
+                outfile.write(element + TAB)
+            if len(refs) > 2: 
+                refs = refs[2:-1]
+            outfile.write(refs + TAB + abstract + "\n")
+            index, title, authors, year, venue = "NA", "NA", "NA", "NA", "NA"
+            refs, abstract = "NA", "NA"
             continue
         if line[1] == "i":
-            outfile.write(line[7:].strip() + TAB)
+            index = str(line[7:].strip())
         if line[1] == "*":
-            outfile.write(line[3:].strip() + TAB)
+            title = line[3:].strip()
         if line[1] == "@":
-            outfile.write(line[3:].strip() + TAB)
+            authors = line[3:].strip()
         if line[1] == "t":
-            outfile.write(line[3:].strip() + TAB)
+            year = line[3:7].strip()
         if line[1] == "c":
-            outfile.write(line[3:].strip() + TAB)
+            venue = line[3:].strip()
         if line[1] == "%":
-            outfile.write(line[3:].strip() + ",")
+            refs = refs + line[3:].strip() + ","
         if line[1] == "!":
-            outfile.write(TAB + line[3:].strip() + TAB)
+            abstract = line[3:].strip()
 
     print("Parsing complete. Output filename: " + filename + ".tsv")
+    print("Closing files...")
